@@ -1,0 +1,12 @@
+(defrule
+ (current-age == imperial-age) =>
+
+ (set-goal goal-primary GOAL_CONQUER)
+)
+
+(defrule
+ (unit-type-count-total trebuchet < 3)
+ (can-train trebuchet) =>
+
+ (train trebuchet)
+)

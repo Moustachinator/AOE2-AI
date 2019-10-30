@@ -1,0 +1,170 @@
+(defconst MAX_DROPSITE_DISTANCE 5)
+(defconst MIN_MILITARY_POPULATION 2)
+(defconst MAX_MILITARY_POPULATION 3)
+
+(defrule
+ (current-age == dark-age) =>
+
+ (set-goal MIN_MILITARY_POPULATION 2)
+ (set-goal MAX_MILITARY_POPULATION 6)
+
+ (set-strategic-number sn-percent-civilian-explorers 0)
+ (set-strategic-number sn-percent-civilian-gatherers 87)
+ (set-strategic-number sn-percent-civilian-builders 13)
+
+ (set-strategic-number sn-food-gatherer-percentage 85)
+ (set-strategic-number sn-wood-gatherer-percentage 15)
+ (set-strategic-number sn-gold-gatherer-percentage 0)
+ (set-strategic-number sn-stone-gatherer-percentage 0)
+
+ (set-strategic-number sn-total-number-explorers 1)
+ (set-strategic-number sn-number-explore-groups 1)
+
+ (set-strategic-number sn-percent-enemy-sighted-response 2)
+ (disable-self)
+)
+
+(defrule
+ (can-research feudal-age) =>
+
+ (research feudal-age)
+)
+
+(defrule
+ (unit-type-count villager < 32)
+ (can-train villager) =>
+
+ (train villager)
+)
+
+(defrule
+ (or
+  (timer-triggered TIMER_11_MINUTES)
+
+  (and
+   (building-type-count-total barracks == 0)
+   (can-build barracks)
+  )
+ ) =>
+
+ (build barracks)
+ (up-assign-builders c: barracks c: 2)
+)
+
+(defrule
+ ;(dropsite-min-distance wood > MAX_DROPSITE_DISTANCE)
+ (resource-found wood)
+ (can-build lumber-camp) =>
+
+ (build lumber-camp)
+)
+
+(defrule
+ (or
+  (sheep-and-forage-too-far)
+  (resource-found food)
+ )
+
+ (building-type-count-total mill == 0)
+ (can-build mill) =>
+
+ (build mill)
+)
+
+(defrule
+ (idle-farm-count < 2)
+ (building-type-count-total farm < 8)
+ (can-build farm) =>
+
+ (build farm)
+)
+
+(defrule
+ (dropsite-min-distance gold > MAX_DROPSITE_DISTANCE)
+ (resource-found gold)
+ (can-build mining-camp) =>
+
+ (build mining-camp)
+)
+
+(defrule
+ (dropsite-min-distance stone > MAX_DROPSITE_DISTANCE)
+ (resource-found stone)
+ (can-build mining-camp) =>
+
+ (build mining-camp)
+)
+
+#load-if-not-defined HUN-CIV
+(defrule
+ (or
+  (and
+   (current-age == dark-age)
+   (and
+    (housing-headroom < 5)
+    (unit-type-count villager < 30)
+   )
+  )
+
+  (and
+   (or
+    (current-age == castle-age)
+    (current-age == imperial-age)
+   )
+
+   (and
+    (housing-headroom < 10)
+    (population-headroom != 0)
+   )
+  )
+ )
+
+ (can-build house) =>
+
+ (build house)
+)
+#end-if
+
+(defrule
+ (military-population < MAX_MILITARY_POPULATION)
+
+=>
+ (train militiaman-line)
+ (train archer-line)
+)
+
+(defrule
+ (can-build castle)
+ (can-build watch-tower-line)
+ (military-population == MAX_MILITARY_POPULATION) =>
+
+ (attack-now)
+ (build-forward castle)
+ (build-forward watch-tower-line)
+ ;(set-goal goal-secondary GOAL_DIPLOMACY)
+ ;emergency resources, so we can still defend ourselves if our military gets wiped out
+ (set-escrow-percentage stone 10)
+ (set-escrow-percentage gold 25)
+ (set-escrow-percentage wood 25)
+ (set-escrow-percentage food 25)
+)
+
+(defrule
+ (military-population < MIN_MILITARY_POPULATION) =>
+
+ (release-escrow food)
+ (release-escrow wood)
+ (release-escrow gold)
+ (release-escrow stone)
+)
+
+(defrule
+ (map-type archipeligo)
+ (map-type baltic)
+ (map-type coastal)
+ (map-type rivers)
+ (map-type team-island)
+ (map-type mediterranean) =>
+
+ (set-goal is-nautic 1)
+)

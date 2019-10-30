@@ -1,0 +1,45 @@
+(defrule
+ (current-age == feudal-age) =>
+
+ (set-strategic-number sn-food-gatherer-percentage 33)
+ (set-strategic-number sn-wood-gatherer-percentage 33)
+ (set-strategic-number sn-gold-gatherer-percentage 21)
+
+ (set-goal MIN_MILITARY_POPULATION 12)
+ (set-goal MAX_MILITARY_POPULATION 16)
+
+ (research ri-double-bit-axe)
+ (research ri-horse-collar)
+
+ (disable-self)
+)
+
+(defrule
+ (can-research castle-age) =>
+
+ (research castle-age)
+)
+
+(defrule
+ (can-build archery-range)
+ (building-type-count-total archery-range == 0)
+ (current-age >= feudal-age) =>
+
+ (build archery-range)
+)
+
+(defrule
+ (can-build dock)
+ (building-type-count-total dock < 2)
+ (current-age >= feudal-age) =>
+
+ (build dock)
+)
+
+(defrule
+ (building-type-count-total castle == 0)
+ (can-build castle) =>
+
+ (build castle)
+ (up-assign-builders c: castle c: 2)
+)

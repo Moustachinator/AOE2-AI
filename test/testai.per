@@ -1,0 +1,22 @@
+(defconst TIMER_11_MINUTES 0)
+(defconst TIMER_15_MINUTES 0)
+(defconst TIMER_30_MINUTES 0)
+
+(defrule
+
+ (true) =>
+
+ (set-goal is-nautic 1)
+
+ (enable-timer TIMER_11_MINUTES 660)
+ (enable-timer TIMER_15_MINUTES 900)
+ (enable-timer TIMER_30_MINUTES 1800)
+)
+
+(load "goals")
+(load "dark-age")
+(load "feudal-age")
+(load "castle-age")
+(load "imperial-age")
+(load "research")
+(load "diplomacy")

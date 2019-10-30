@@ -1,0 +1,86 @@
+;techs either researched as soon as possible, or when the primary goal is to research
+
+;===========
+; BUILDINGS
+;===========
+(defrule
+ (can-research ri-guard-tower) =>
+
+ (research ri-guard-tower)
+)
+
+(defrule
+ (can-research ri-keep-tower) =>
+
+ (research ri-keep-tower)
+)
+
+(defrule
+ (can-research ri-bombadier-tower) =>
+
+ (research ri-bombadier-tower)
+)
+
+;=============
+; BLACKSMITH
+;=============
+;Archer
+;------
+(defrule
+ (goal-primary == GOAL_RESEARCH)
+ (can-research ri-fletching) =>
+
+ (research ri-fletching)
+)
+
+(defrule
+ (goal-primary == GOAL_RESEARCH)
+ (can-research ri-bodkin-arrow) =>
+
+ (research ri-bodkin-arrow)
+)
+
+;Infantry/Cavalry
+;----------------
+;============
+; UNIVERSITY
+;============
+
+;========
+; UNITS
+;========
+(defrule
+ (can-research ri-crossbow) =>
+
+ (research ri-crossbow)
+)
+
+(defrule
+ (can-research ri-arbalest) =>
+
+ (research ri-arbalest)
+)
+
+(defrule
+ (can-research ri-man-at-arms) =>
+
+ (research ri-man-at-arms)
+)
+
+(defrule
+ (can-research ri-two-handed-swordsman) =>
+
+ (research ri-two-handed-swordsman)
+)
+
+(defrule
+ (can-research ri-long-swordsman) =>
+
+ (research ri-long-swordsman)
+)
+
+(defrule
+ (can-research ri-champion) =>
+
+ (research ri-champion)
+)

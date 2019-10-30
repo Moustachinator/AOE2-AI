@@ -1,0 +1,57 @@
+;primary goals are resource heavy, where near all is put in to, and are basically one of the win conditions.
+;Whereas secondary goals are ones that can be done on the side, without interrupting.
+;primary
+(defconst GOAL_WONDER 0)
+(defconst GOAL_CONQUER 1)
+(defconst GOAL_RESEARCH 2)
+(defconst GOAL_DEFENSE 3)
+;secondary
+(defconst GOAL_RESERVES 4)
+(defconst GOAL_DIPLOMACY 5)
+
+(defconst MAX_MILITARY_POPULATION 40)
+
+(defrule
+ (goal-primary == GOAL_WONDER)
+ (can-build wonder) =>
+
+ (build wonder)
+ (up-assign-builder c: wonder c: 4)
+ (set-goal goal-primary GOAL_DEFENSE)
+ (set-goal goal-secondary GOAL_RESERVES)
+)
+
+(defrule
+ (military-population < 12)
+ (goal-primary == GOAL_CONQUER) =>
+
+ (set-goal goal-primary GOAL_DEFENSE)
+
+ (release-escrow food)
+ (release-escrow wood)
+ (release-escrow gold)
+ (release-escrow stone)
+)
+
+(defrule
+ (military-population == MAX_MILITARY_POPULATION)
+ (goal-primary == GOAL_CONQUER) =>
+
+ (attack-now)
+ (build-forward castle)
+ (build-forward tower)
+ (set-goal goal-secondary GOAL_DIPLOMACY)
+ ;emergency resources, so we can still defend ourselves if our military gets wiped out
+ (set-escrow-percentage stone 10)
+ (set-escrow-percentage gold 25)
+ (set-escrow-percentage wood 25)
+ (set-escrow-percentage food 25)
+)
+
+(defrule
+ (military-population < MAX_MILITARY_POPULATION)
+ (goal-secondary == GOAL_RESERVES) =>
+ ;train troops
+ (train archer-line)
+ (train militiaman-line)
+)

@@ -1,0 +1,76 @@
+(defrule
+ (current-age == castle-age) =>
+
+ (research ri-man-at-arms)
+ (set-strategic-number sn-wood-gatherer-percentage 38)
+ (set-strategic-number sn-gold-gatherer-percentage 16)
+
+ (set-goal MIN_MILITARY_POPULATION 12)
+ (set-goal MAX_MILITARY_POPULATION 25)
+
+ (disable-self)
+)
+
+(defrule
+ (current-age == imperial-age) =>
+
+ (set-goal MIN_MILITARY_POPULATION 20)
+ (set-goal MAX_MILITARY_POPULATION 100)
+
+ (disable-self)
+)
+
+(defrule
+ (can-research imperial-age) =>
+
+ (research imperial-age)
+)
+
+(defrule
+ (can-afford-research ri-bow-saw)
+ (can-research ri-bow-saw) =>
+
+ (research ri-bow-saw)
+ (disable-self)
+)
+
+(defrule
+ (can-afford-research ri-heavy-plow)
+ (can-research ri-heavy-plow) =>
+
+ (research ri-heavy-plow)
+ (disable-self)
+)
+
+(defrule
+ (building-type-count-total watch-tower-line < 5)
+ (can-build watch-tower-line) =>
+
+ (build watch-tower-line)
+)
+
+(defrule
+ (can-build blacksmith)
+ (can-build university) =>
+
+ (build blacksmith)
+ (build university)
+ (disable-self)
+)
+
+(defrule
+ (goal-secondary == GOAL_RESERVES)
+ (is-nautic == 1)
+ (unit-type-count-total galley-line < 10)
+ (can-build galley-line)
+
+ (build galley-line)
+)
+
+(defrule
+ (is-nautic == 1)
+ (unit-type-count-total transport-ship < 4)
+ (can-build transport-ship)
+
+ (build transport-ship)
+)

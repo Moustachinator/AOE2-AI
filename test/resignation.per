@@ -1,0 +1,68 @@
+;==========
+; BEFRIEND
+;==========
+(defrule
+ (players-stance any-human enemy) =>
+
+ (local-chat "Please be allies with this freeloader")
+)
+
+;=========
+; RESPOND
+;=========
+(defrule
+ (players-stance any-human enemy) =>
+
+ (local-chat "Sorry! I can't send any resources :D")
+)
+;=============
+; RESIGNATION
+;=============
+(defrule
+ (difficulty >= easy)
+ (game-time > 300)
+ (soldier-count == 0)
+ (unit-type-count villager < five-percent-pop)
+ (nand
+  (players-stance any-human ally)
+  (stance-toward any-human ally)
+ ) =>
+
+ (set-goal 1 19)
+ (disable-self)
+)
+
+(defrule
+ (difficulty == moderate)
+ (game-time > 300)
+ (building-type-count wonder < 1)
+ (soldier-count == 0)
+ (unit-type-count villager < five-percent-pop)
+ (nand
+  (players-stance any-human ally)
+  (stance-toward any-human ally)
+ )
+
+ (not (can-train villager) ) =>
+
+ (set-goal 1 19)
+ (disable-self)
+)
+
+(defrule
+ (difficulty <= hard)
+ (game-time > 300)
+ (building-type-count wonder < 1)
+ (soldier-count == 0)
+ (unit-type-count cannon-galleon-line == 0)
+ (unit-type-count villager == 0)
+ (nand
+  (players-stance any-human ally)
+  (stance-toward any-human ally)
+ )
+
+ (not (can-train villager) ) =>
+
+ (set-goal 1 19)
+ (disable-self)
+)
